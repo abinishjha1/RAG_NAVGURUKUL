@@ -1,293 +1,120 @@
 # PDF RAG System 🤖📄
 
-A modern web application that allows users to upload PDF documents, automatically processes them into chunks, generates embeddings, stores them in a vector database (ChromaDB), and provides an AI-powered chat interface to ask questions about the document content.
+A simple web app to chat with your PDF documents using AI.
 
-![PDF RAG System](https://img.shields.io/badge/Python-3.8+-blue.svg)
-![FastAPI](https://img.shields.io/badge/FastAPI-0.104+-green.svg)
-![LangChain](https://img.shields.io/badge/LangChain-Latest-orange.svg)
+**🔗 GitHub:** https://github.com/abinishjha1/RAG_NAVGURUKUL
 
-## ✨ Features
+---
 
-- 📤 **PDF Upload**: Drag-and-drop or click to upload PDF documents
-- 🔪 **Automatic Chunking**: Intelligently splits documents using RecursiveCharacterTextSplitter
-- 🧠 **Embeddings**: Generates embeddings using OpenAI's text-embedding-3-small model
-- 💾 **Vector Storage**: Stores embeddings in ChromaDB for efficient retrieval
-- 💬 **AI Chat Interface**: Ask questions about your PDFs and get accurate answers
-- 🎨 **Modern UI**: Beautiful dark mode interface with glassmorphism and smooth animations
-- 📱 **Responsive Design**: Works seamlessly on desktop and mobile devices
-- 🔄 **Real-time Updates**: Live processing status and chat updates
+## ⚡ Quick Start
 
-## 🏗️ Architecture
-
-```
-┌─────────────┐
-│   Frontend  │  (HTML/CSS/JavaScript)
-│   (Browser) │
-└──────┬──────┘
-       │ HTTP/REST API
-       ▼
-┌─────────────┐
-│   FastAPI   │  (Python Backend)
-│   Server    │
-└──────┬──────┘
-       │
-       ├──────────────┐
-       │              │
-       ▼              ▼
-┌─────────────┐  ┌──────────────┐
-│ PDF         │  │ Chat Engine  │
-│ Processor   │  │              │
-└──────┬──────┘  └──────┬───────┘
-       │                │
-       │                │
-       ▼                ▼
-┌──────────────────────────┐
-│      ChromaDB            │
-│   (Vector Database)      │
-└──────────────────────────┘
-       │
-       ▼
-┌──────────────────────────┐
-│   OpenAI API             │
-│   - Embeddings           │
-│   - GPT-4 (Chat)         │
-└──────────────────────────┘
-```
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Python 3.8 or higher
-- OpenAI API key
-
-### Installation
-
-   Navigate to the project directory:
-   ```bash
-   cd RAG-NAVGURUKUL
-   ```
-
-2. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. **Set up environment variables**:
-   
-   Create a `.env` file in the project root:
-   ```bash
-   cp .env.example .env
-   ```
-   
-   Edit `.env` and add your OpenAI API key:
-   ```
-   OPENAI_API_KEY=your_openai_api_key_here
-   ```
-
-   **OR** to use Google Gemini (Free Tier):
-   
-   1. Get a free API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
-   2. Update your `.env` file:
-   ```
-   LLM_PROVIDER=gemini
-   GOOGLE_API_KEY=your_google_api_key_here
-   ```
-
-### Running the Application
-
-1. **Start the FastAPI server**:
-   ```bash
-   python app.py
-   ```
-   
-   Or using uvicorn directly:
-   ```bash
-   uvicorn app:app --reload --host 0.0.0.0 --port 8000
-   ```
-
-2. **Open your browser** and navigate to:
-   ```
-   http://localhost:8000
-   ```
-
-3. **Upload a PDF** and start chatting!
-
-## 📖 Usage
-
-### Uploading a PDF
-
-1. Click on the upload area or drag and drop a PDF file
-2. Wait for the processing to complete (you'll see a progress indicator)
-3. Once processed, you'll see statistics about the chunks created
-
-### Chatting with Your PDF
-
-1. Type your question in the chat input box
-2. Press Enter or click the send button
-3. The AI will retrieve relevant chunks and generate an answer
-4. Source references will be shown below the answer
-
-### Clearing Documents
-
-Click the "Clear All" button in the header to remove all uploaded documents and reset the system.
-
-## 🛠️ API Endpoints
-
-### `POST /upload-pdf`
-Upload and process a PDF file.
-
-**Request**: Multipart form data with PDF file
-**Response**:
-```json
-{
-  "success": true,
-  "message": "Successfully processed document.pdf",
-  "filename": "document.pdf",
-  "chunks_created": 42,
-  "total_documents": 42
-}
-```
-
-### `POST /chat`
-Query the PDF content.
-
-**Request**:
-```json
-{
-  "question": "What is the main topic of this document?",
-  "k": 5
-}
-```
-
-**Response**:
-```json
-{
-  "success": true,
-  "answer": "The main topic is...",
-  "sources": [...],
-  "num_sources": 5
-}
-```
-
-### `GET /status`
-Get vector store status.
-
-**Response**:
-```json
-{
-  "initialized": true,
-  "total_documents": 42,
-  "persist_directory": "db/chroma_db",
-  "message": "Vector store contains 42 document chunks"
-}
-```
-
-### `DELETE /clear`
-Clear all documents from the vector store.
-
-**Response**:
-```json
-{
-  "success": true,
-  "message": "Vector store cleared successfully"
-}
-```
-
-## 📁 Project Structure
-
-```
-project-root/
-├── app.py                  # FastAPI application
-├── pdf_processor.py        # PDF processing and vector storage
-├── chat_engine.py          # Chat and retrieval logic
-├── requirements.txt        # Python dependencies
-├── .env                    # Environment variables (create this)
-├── .env.example           # Environment template
-├── static/                # Frontend files
-│   ├── index.html         # Main HTML page
-│   ├── styles.css         # Styling
-│   └── script.js          # Client-side logic
-├── db/                    # Database directory (auto-created)
-│   └── chroma_db/         # ChromaDB storage
-└── uploads/               # Temporary upload directory (auto-created)
-```
-
-## 🎨 Features in Detail
-
-### PDF Processing
-- Extracts text from all pages of the PDF
-- Handles encrypted PDFs with appropriate error messages
-- Validates PDF integrity before processing
-
-### Chunking Strategy
-- Uses RecursiveCharacterTextSplitter for intelligent text splitting
-- Default chunk size: 1000 characters
-- Default overlap: 200 characters
-- Preserves context across chunks
-
-### Vector Storage
-- Uses ChromaDB for efficient vector storage
-- Cosine similarity for semantic search
-- Persistent storage across sessions
-- Metadata tracking for source attribution
-
-### Chat Engine
-- Retrieves top-k relevant chunks (default k=5)
-- Uses GPT-4 for answer generation
-- Provides source citations
-- Handles edge cases gracefully
-
-## 🔧 Configuration
-
-You can customize various parameters in the code:
-
-- **Chunk size**: Modify `chunk_size` in `pdf_processor.py`
-- **Chunk overlap**: Modify `chunk_overlap` in `pdf_processor.py`
-- **Number of retrieved chunks**: Modify `k` parameter in chat requests
-- **LLM model**: Change `model` in `chat_engine.py`
-- **Embedding model**: Change `model` in embedding initialization
-
-## 🐛 Troubleshooting
-
-### "No module named 'xyz'"
-Install missing dependencies:
+### 1. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### "OpenAI API key not found"
-Make sure you've created a `.env` file with your API key:
-```
-OPENAI_API_KEY=your_key_here
-```
+### 2. Set Up API Key
 
-### "Error extracting text from PDF"
-- Ensure the PDF is not corrupted
-- Check if the PDF is encrypted
-- Try a different PDF file
-
-### Port already in use
-Change the port in `app.py`:
-```python
-uvicorn.run(app, host="0.0.0.0", port=8001, reload=True)
+Create a `.env` file:
+```bash
+cp .env.example .env
 ```
 
-## 📝 License
+Choose one of these **FREE** options:
 
-This project is open source and available under the MIT License.
+**Option A - Groq (Recommended):**
+```
+LLM_PROVIDER=groq
+GROQ_API_KEY=your_key_from_console.groq.com
+GROQ_MODEL=llama-3.3-70b-versatile
+```
 
-## 🤝 Contributing
+**Option B - Google Gemini:**
+```
+LLM_PROVIDER=gemini
+GOOGLE_API_KEY=your_key_from_aistudio.google.com
+```
 
-Contributions are welcome! Feel free to open issues or submit pull requests.
+**Option C - OpenAI (Paid):**
+```
+OPENAI_API_KEY=your_openai_api_key
+```
 
-## 🙏 Acknowledgments
+### 3. Run the App
+```bash
+./start.sh
+```
 
-- Built with [FastAPI](https://fastapi.tiangolo.com/)
-- Powered by [LangChain](https://www.langchain.com/)
-- Vector storage by [ChromaDB](https://www.trychroma.com/)
-- AI by [OpenAI](https://openai.com/)
+Or manually:
+```bash
+python app.py
+```
+
+### 4. Open Browser
+Go to: **http://localhost:8000**
 
 ---
 
+## 📖 How to Use
 
+1. **Upload PDF** - Drag & drop or click to upload
+2. **Wait** - The system processes and stores your PDF
+3. **Ask Questions** - Type your question and get AI-powered answers
+
+---
+
+## 🏗️ Project Structure
+
+```
+├── app.py              # Main FastAPI server
+├── pdf_processor.py    # PDF processing & vector storage
+├── chat_engine.py      # AI chat logic
+├── llm_config.py       # LLM provider configuration
+├── start.sh            # Startup script
+├── static/             # Frontend (HTML/CSS/JS)
+├── db/                 # Vector database storage
+└── uploads/            # Temporary PDF uploads
+```
+
+---
+
+## 🛠️ API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/upload-pdf` | POST | Upload a PDF |
+| `/chat` | POST | Ask a question |
+| `/status` | GET | Check system status |
+| `/clear` | DELETE | Clear all documents |
+
+---
+
+## 🔧 Supported LLM Providers
+
+| Provider | Free Tier | API Key Source |
+|----------|-----------|----------------|
+| **Groq** | ✅ Yes | [console.groq.com](https://console.groq.com/keys) |
+| **Gemini** | ✅ Yes | [aistudio.google.com](https://aistudio.google.com/app/apikey) |
+| **Ollama** | ✅ Local | [ollama.com](https://ollama.com) |
+| **OpenAI** | ❌ Paid | [platform.openai.com](https://platform.openai.com) |
+
+---
+
+## 🐛 Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| Module not found | `pip install -r requirements.txt` |
+| API key error | Check your `.env` file |
+| Port in use | Change port in `app.py` |
+| PDF won't upload | Make sure PDF isn't encrypted |
+
+---
+
+## 📝 License
+
+MIT License - Free to use and modify.
+
+---
+
+**🔗 GitHub Repository:** https://github.com/abinishjha1/RAG_NAVGURUKUL
