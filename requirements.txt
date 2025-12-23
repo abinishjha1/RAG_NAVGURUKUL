@@ -1,0 +1,18 @@
+langchain
+langchain-openai
+langchain-community
+langchain-chroma
+langchain-text-splitters
+chromadb
+python-dotenv
+openai
+
+# Web Framework
+fastapi
+uvicorn[standard]
+python-multipart
+
+# PDF Processing
+pypdf2
+pdfplumber
+langchain-google-genai
