@@ -8,7 +8,7 @@ try:
     from pypdf import PdfReader
 except ImportError:
     from PyPDF2 import PdfReader
-from langchain.schema import Document
+from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_chroma import Chroma
 from dotenv import load_dotenv

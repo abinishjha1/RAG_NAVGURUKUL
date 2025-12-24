@@ -16,3 +16,6 @@ python-multipart
 pypdf2
 pdfplumber
 langchain-google-genai
+langchain-groq
+langchain-huggingface
+langchain-ollama
