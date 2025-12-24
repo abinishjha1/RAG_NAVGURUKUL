@@ -57,3 +57,4 @@ echo ""
 
 # Start the FastAPI server
 python3 app.py
+

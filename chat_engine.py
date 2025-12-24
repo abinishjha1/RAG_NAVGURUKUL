@@ -166,3 +166,4 @@ Include specific references to the source documents when relevant."""
                 "answer": f"Error processing your question: {str(e)}",
                 "sources": []
             }
+

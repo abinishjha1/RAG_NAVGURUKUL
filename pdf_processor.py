@@ -296,3 +296,4 @@ class PDFProcessor:
                 "error": str(e),
                 "message": f"Error clearing vector store: {str(e)}"
             }
+
