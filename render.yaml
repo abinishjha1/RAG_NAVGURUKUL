@@ -6,9 +6,9 @@ services:
     startCommand: uvicorn app:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: LLM_PROVIDER
-        sync: false
+        value: groq
       - key: GROQ_API_KEY
-        sync: false
+        sync: false  # REQUIRED: Set this in Render Dashboard > Environment
       - key: GROQ_MODEL
         value: llama-3.3-70b-versatile
       - key: PYTHON_VERSION
