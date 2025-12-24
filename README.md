@@ -117,5 +117,3 @@ MIT License - Free to use and modify.
 
 ---
 
-**🔗 GitHub Repository:** https://github.com/abinishjha1/RAG_NAVGURUKUL
-
